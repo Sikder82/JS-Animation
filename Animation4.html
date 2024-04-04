@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Butterfly Animation</title>
+<title>Progress Bar Animation</title>
 <style>
     body {
         margin: 0;
@@ -11,57 +11,46 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #87CEEB; /* sky blue */
+        background-color: #f0f0f0;
+    }
+
+    .progress-container {
+        width: 300px;
+        height: 20px;
+        background-color: #ddd;
+        border-radius: 10px;
         overflow: hidden;
     }
 
-    .butterfly {
-        position: absolute;
-        width: 50px;
-        height: 40px;
-        background: linear-gradient(to right, #FF1493, #FFD700); /* gradient colors */
-        border-radius: 50% 20% 50% 20%/30% 20% 70% 50%;
-        animation: fly 5s linear infinite alternate, flutter 0.5s ease-in-out infinite;
-        transform-origin: center;
-    }
-
-    @keyframes fly {
-        0% {
-            transform: translateX(0) translateY(0) rotateY(0);
-        }
-        100% {
-            transform: translateX(100vw) translateY(-100vh) rotateY(180deg);
-        }
-    }
-
-    @keyframes flutter {
-        0%, 100% {
-            transform: translateY(0);
-        }
-        50% {
-            transform: translateY(-10px);
-        }
+    .progress-bar {
+        width: 0;
+        height: 100%;
+        background-color: #4CAF50; /* green */
+        transition: width 2s ease-in-out;
     }
 </style>
 </head>
 <body>
+<div class="progress-container">
+    <div class="progress-bar"></div>
+</div>
 <script>
-    // Function to generate a random number between min and max
-    function random(min, max) {
-        return Math.random() * (max - min) + min;
+    // Simulate progress animation
+    const progressBar = document.querySelector('.progress-bar');
+    let progress = 0;
+    const increment = 1; // Increment value for progress (adjust as needed)
+    const interval = 50; // Interval between increments in milliseconds
+
+    function updateProgress() {
+        progress += increment;
+        progressBar.style.width = `${progress}%`;
+
+        if (progress < 100) {
+            setTimeout(updateProgress, interval);
+        }
     }
 
-    // Create multiple butterflies
-    const numButterflies = 5;
-    for (let i = 0; i < numButterflies; i++) {
-        const butterfly = document.createElement('div');
-        butterfly.classList.add('butterfly');
-        butterfly.style.left = `${random(0, 100)}vw`;
-        butterfly.style.top = `${random(0, 100)}vh`;
-        butterfly.style.animationDuration = `${random(5, 10)}s`;
-        butterfly.style.animationDelay = `${random(0, 10)}s`;
-        document.body.appendChild(butterfly);
-    }
+    updateProgress();
 </script>
 </body>
 </html>
